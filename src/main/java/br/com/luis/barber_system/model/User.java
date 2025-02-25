@@ -1,15 +1,15 @@
 package br.com.luis.barber_system.model;
 
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import br.com.luis.barber_system.model.enums.UserType;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -17,8 +17,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class Person {
-
+public abstract class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -28,5 +27,12 @@ public abstract class Person {
 
     private String email;
 
+    private String password;
+
     private String phoneNumber;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 }
