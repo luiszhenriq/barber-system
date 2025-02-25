@@ -12,6 +12,8 @@ import br.com.luis.barber_system.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -59,6 +61,13 @@ public class CustomerService {
         return tokenService.generateToken((Customer) auth.getPrincipal());
     }
 
+    public CustomerResponseDTO profile() {
+
+        Customer customer = repository.findUserByEmail(getAuthenticatedUser());
+
+        return customerResponseDTO(customer);
+    }
+
 
     private CustomerResponseDTO customerResponseDTO(Customer customer) {
 
@@ -70,5 +79,12 @@ public class CustomerService {
                 customer.getCreatedAt(),
                 customer.getUserType()
         );
+    }
+
+    private String getAuthenticatedUser() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return authentication.getName();
     }
 }
