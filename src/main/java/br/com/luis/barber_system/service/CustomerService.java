@@ -18,6 +18,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -59,6 +61,14 @@ public class CustomerService {
         var auth = manager.authenticate(token);
 
         return tokenService.generateToken((Customer) auth.getPrincipal());
+    }
+
+    public CustomerResponseDTO findById(UUID id) {
+
+        Customer customer = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Id não encontrado"));
+
+        return customerResponseDTO(customer);
     }
 
     public CustomerResponseDTO profile() {
