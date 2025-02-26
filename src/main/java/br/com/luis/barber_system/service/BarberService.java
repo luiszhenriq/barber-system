@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,6 +72,14 @@ public class BarberService {
                 .collect(Collectors.toList());
     }
 
+    public BarberResponseDTO findById(UUID id) {
+
+        Barber barber = repository.findById(id).
+                orElseThrow(() -> new RuntimeException("Id não foi encontrado"));
+
+        return barberResponseDTO(barber);
+    }
+
     private BarberResponseDTO barberResponseDTO(Barber barber) {
 
         return new BarberResponseDTO(
@@ -83,4 +92,6 @@ public class BarberService {
                 barber.getUserType()
         );
     }
+
+
 }
