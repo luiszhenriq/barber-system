@@ -2,14 +2,12 @@ package br.com.luis.barber_system.controller;
 
 
 import br.com.luis.barber_system.dto.barber.BarberResponseDTO;
+import br.com.luis.barber_system.dto.barber.BarberUpdateDTO;
 import br.com.luis.barber_system.service.BarberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,5 +28,11 @@ public class BarberController {
     @GetMapping("/{id}")
     public ResponseEntity<BarberResponseDTO> findById(@PathVariable("id") UUID id) {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BarberResponseDTO> update(@PathVariable("id") UUID id,
+                                                    @RequestBody BarberUpdateDTO barberUpdate) {
+        return new ResponseEntity<>(service.update(id, barberUpdate), HttpStatus.OK);
     }
 }
