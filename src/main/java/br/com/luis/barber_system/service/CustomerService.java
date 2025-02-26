@@ -92,6 +92,10 @@ public class CustomerService {
         return customerResponseDTO(customer);
     }
 
+    public void delete(UUID id) {
+        repository.deleteById(id);
+    }
+
 
     private CustomerResponseDTO customerResponseDTO(Customer customer) {
 
