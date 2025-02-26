@@ -16,6 +16,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class BarberService {
@@ -58,6 +61,14 @@ public class BarberService {
         var auth = manager.authenticate(token);
 
         return tokenService.generateToken((Barber) auth.getPrincipal());
+    }
+
+    public List<BarberResponseDTO> findAll() {
+
+        return repository.findAll()
+                .stream()
+                .map(this::barberResponseDTO)
+                .collect(Collectors.toList());
     }
 
     private BarberResponseDTO barberResponseDTO(Barber barber) {
