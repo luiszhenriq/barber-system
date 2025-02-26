@@ -4,6 +4,7 @@ package br.com.luis.barber_system.service;
 import br.com.luis.barber_system.dto.customer.CustomerLoginDTO;
 import br.com.luis.barber_system.dto.customer.CustomerRegisterDTO;
 import br.com.luis.barber_system.dto.customer.CustomerResponseDTO;
+import br.com.luis.barber_system.dto.customer.CustomerUpdateDTO;
 import br.com.luis.barber_system.infra.security.TokenService;
 import br.com.luis.barber_system.model.Customer;
 import br.com.luis.barber_system.model.enums.UserType;
@@ -69,6 +70,19 @@ public class CustomerService {
                 .orElseThrow(() -> new RuntimeException("Id não encontrado"));
 
         return customerResponseDTO(customer);
+    }
+
+    public CustomerResponseDTO update(UUID id, CustomerUpdateDTO customerUpdate) {
+
+        Customer customer = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Id não encontrado"));
+
+        customer.setName(customerUpdate.name());
+        customer.setPhoneNumber(customerUpdate.phoneNumber());
+
+        Customer updatedCustomer = repository.save(customer);
+
+        return customerResponseDTO(updatedCustomer);
     }
 
     public CustomerResponseDTO profile() {
