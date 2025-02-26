@@ -35,4 +35,10 @@ public class BarberController {
                                                     @RequestBody BarberUpdateDTO barberUpdate) {
         return new ResponseEntity<>(service.update(id, barberUpdate), HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable("id") UUID id) {
+        service.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

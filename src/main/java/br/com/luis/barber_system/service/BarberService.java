@@ -95,6 +95,10 @@ public class BarberService {
         return barberResponseDTO(updatedBarber);
     }
 
+    public void delete(UUID id) {
+        repository.deleteById(id);
+    }
+
     private BarberResponseDTO barberResponseDTO(Barber barber) {
 
         return new BarberResponseDTO(
